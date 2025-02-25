@@ -1,21 +1,17 @@
 import { useState } from "react";
-import Names from "./components/Names";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Patrick Gross" },
-    { name: "Andrew Gross" },
-    { name: "Matthew Gross" },
-    { name: "Kathy Gross" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
 
-  const nameInput = (event) => {
+  const handleInputChange = (event) => {
     setNewName(event.target.value);
   };
 
-  const addName = (newName) => {
-    setPersons(persons.push(newName));
+  const handleAddName = (event) => {
+    event.preventDefault();
+    setPersons([...persons, { name: `${newName}` }]);
+    console.log(persons);
     setNewName("");
   };
 
@@ -24,16 +20,18 @@ const App = () => {
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input onChange={nameInput} />
+          name: <input type="text" onChange={handleInputChange} />
         </div>
         <div>
-          <button type="submit" onClick={addName}>
+          <button type="submit" onClick={handleAddName}>
             add
           </button>
         </div>
       </form>
       <h2>Numbers</h2>
-      <Names persons={persons} />
+      {persons.map((person, index) => {
+        return <p key={index}>{person.name}</p>;
+      })}
     </div>
   );
 };
