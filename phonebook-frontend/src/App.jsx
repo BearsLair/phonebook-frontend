@@ -1,7 +1,11 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
+  const [persons, setPersons] = useState([
+    { name: "Patrick" },
+    { name: "Kathy" },
+    { name: "Matt" },
+  ]);
   const [newName, setNewName] = useState("");
 
   const handleInputChange = (event) => {
@@ -10,9 +14,16 @@ const App = () => {
 
   const handleAddName = (event) => {
     event.preventDefault();
-    setPersons([...persons, { name: `${newName}` }]);
-    console.log(persons);
-    setNewName("");
+
+    const duplicateExists = persons.some((person) => newName === person.name);
+
+    if (duplicateExists) {
+      alert(`${newName} is already in the phonebook.`);
+      setNewName("");
+    } else {
+      setPersons([...persons, { name: `${newName}` }]);
+      setNewName("");
+    }
   };
 
   return (
@@ -20,7 +31,8 @@ const App = () => {
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input type="text" onChange={handleInputChange} />
+          name:{" "}
+          <input type="text" value={newName} onChange={handleInputChange} />
         </div>
         <div>
           <button type="submit" onClick={handleAddName}>
