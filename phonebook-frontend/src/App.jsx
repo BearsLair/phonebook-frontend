@@ -6,9 +6,9 @@ const App = () => {
     { name: "Kathy", number: "650-922-0894" },
     { name: "Matt", number: "942-792-5669" },
     { name: "Andrew", number: "942-893-0579" },
-    { name: "Patricia Heaton", number: "352-796-3575" },
-    { name: "Andy Parker", number: "792-359-7525" },
-    { name: "Anthony Pekov", number: "659-302-6878" },
+    { name: "Patricia", number: "352-796-3575" },
+    { name: "Andy", number: "792-359-7525" },
+    { name: "Anthony", number: "659-302-6878" },
   ]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
