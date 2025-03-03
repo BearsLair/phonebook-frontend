@@ -26,15 +26,17 @@ const App = () => {
 
   const handleNameSearchChange = (event) => {
     setNameSearch(event.target.value);
-    console.log(nameSearch);
 
-    if (nameSearch === "") {
+    if (nameSearch.length === 0) {
       setDisplayPersons(persons);
-    } else {
+    } else if (nameSearch.length > 0) {
+      console.log("nameSearch at else if statement", nameSearch);
+      console.log(typeof nameSearch);
+
       const filteredPersons = [];
 
       persons.map((person) => {
-        if (person.includes(nameSearch)) {
+        if (person.name.includes(nameSearch)) {
           filteredPersons.push(person);
         }
       });
