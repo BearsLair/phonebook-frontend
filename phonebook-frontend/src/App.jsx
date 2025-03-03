@@ -14,6 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nameSearch, setNameSearch] = useState("");
+  const [displayPersons, setDisplayPersons] = useState(persons);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -25,6 +26,23 @@ const App = () => {
 
   const handleNameSearchChange = (event) => {
     setNameSearch(event.target.value);
+    console.log(nameSearch);
+
+    if (nameSearch === "") {
+      setDisplayPersons(persons);
+    } else {
+      const filteredPersons = [];
+
+      persons.map((person) => {
+        if (person.includes(nameSearch)) {
+          filteredPersons.push(person);
+        }
+      });
+
+      console.log(filteredPersons);
+
+      setDisplayPersons(filteredPersons);
+    }
   };
 
   const handleAddPerson = (event) => {
@@ -78,7 +96,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person, index) => {
+      {displayPersons.map((person, index) => {
         return (
           <p key={index}>
             {person.name} {person.number}
