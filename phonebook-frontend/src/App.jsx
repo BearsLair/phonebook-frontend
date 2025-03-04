@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -16,6 +16,14 @@ const App = () => {
   const [nameSearch, setNameSearch] = useState("");
   const [displayPersons, setDisplayPersons] = useState(persons);
 
+  // useEffect here allows changes to DOM after searching to be immediate.
+  useEffect(() => {
+    const filteredList = persons.filter((person) => {
+      person.name.includes(nameSearch.toLowerCase());
+    });
+    setDisplayPersons(filteredList);
+  }, [nameSearch, persons]);
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -26,25 +34,6 @@ const App = () => {
 
   const handleNameSearchChange = (event) => {
     setNameSearch(event.target.value);
-
-    if (nameSearch.length === 0) {
-      setDisplayPersons(persons);
-    } else if (nameSearch.length > 0) {
-      console.log("nameSearch at else if statement", nameSearch);
-      console.log(typeof nameSearch);
-
-      const filteredPersons = [];
-
-      persons.map((person) => {
-        if (person.name.includes(nameSearch)) {
-          filteredPersons.push(person);
-        }
-      });
-
-      console.log(filteredPersons);
-
-      setDisplayPersons(filteredPersons);
-    }
   };
 
   const handleAddPerson = (event) => {
