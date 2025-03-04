@@ -16,21 +16,12 @@ const App = () => {
   const [nameSearch, setNameSearch] = useState("");
   const [displayPersons, setDisplayPersons] = useState(persons);
 
-  // useEffect here allows changes to DOM after searching to be immediate.
   useEffect(() => {
-    const filteredList = persons.filter((person) => {
-      person.name.includes(nameSearch.toLowerCase());
-    });
+    const filteredList = persons.filter(
+      (person) => person.name.toLowerCase().includes(nameSearch.toLowerCase()) // Case-insensitive search
+    );
     setDisplayPersons(filteredList);
-  }, [nameSearch, persons]);
-
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
-  };
-
-  const handleNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
-  };
+  }, [nameSearch, persons]); // Re-run effect when nameSearch or persons change
 
   const handleNameSearchChange = (event) => {
     setNameSearch(event.target.value);
@@ -38,62 +29,58 @@ const App = () => {
 
   const handleAddPerson = (event) => {
     event.preventDefault();
-
     const duplicateExists = persons.some((person) => newName === person.name);
 
     if (duplicateExists) {
       alert(`${newName} is already in the phonebook.`);
-      setNewName("");
-      setPhoneNumber("");
     } else {
-      setPersons([
-        ...persons,
-        { name: `${newName}`, number: `${phoneNumber}` },
-      ]);
-      setNewName("");
-      setPhoneNumber("");
+      const newPerson = { name: newName, number: phoneNumber };
+      setPersons([...persons, newPerson]);
     }
+
+    setNewName("");
+    setPhoneNumber("");
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
       <div>
-        filter show with:{" "}
+        filter show with:
         <input
           type="text"
           value={nameSearch}
           onChange={handleNameSearchChange}
         />
       </div>
-      <form>
+      <form onSubmit={handleAddPerson}>
+        <h2>Add New Entry</h2>
         <div>
-          <h2>Add New Entry</h2>
           name:{" "}
-          <input type="text" value={newName} onChange={handleNameChange} />
+          <input
+            type="text"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+          />
         </div>
         <div>
           phone number:{" "}
           <input
             type="text"
             value={phoneNumber}
-            onChange={handleNumberChange}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
         <div>
-          <button type="submit" onClick={handleAddPerson}>
-            add
-          </button>
+          <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {displayPersons.map((person, index) => {
-        return (
-          <p key={index}>
-            {person.name} {person.number}
-          </p>
-        );
-      })}
+      {displayPersons.map((person, index) => (
+        <p key={index}>
+          {person.name} {person.number}
+        </p>
+      ))}
     </div>
   );
 };
