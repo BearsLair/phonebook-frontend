@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Display from "./components/Display";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -76,11 +77,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {displayPersons.map((person, index) => (
-        <p key={index}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      <Display persons={displayPersons} />
     </div>
   );
 };
