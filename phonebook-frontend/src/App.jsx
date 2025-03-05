@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Display from "./components/Display";
 import Submit from "./components/Submit";
+import Filter from "./components/Filter";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -48,14 +49,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter show with:
-        <input
-          type="text"
-          value={nameSearch}
-          onChange={handleNameSearchChange}
-        />
-      </div>
+      <Filter
+        nameSearch={nameSearch}
+        handleNameSearchChange={handleNameSearchChange}
+      />
       <h2>Add New Entry</h2>
       {/* Methods passed as props do not need parantheses, as with handleAddPerson */}
       <Submit
