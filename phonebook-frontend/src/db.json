@@ -1,0 +1,39 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "name": "Patrick",
+      "number": "650-923-9322"
+    },
+    {
+      "id": 2,
+      "name": "Kathy",
+      "number": "650-920-0892"
+    },
+    {
+      "id": 3,
+      "name": "Matt",
+      "number": "942-792-5669"
+    },
+    {
+      "id": 4,
+      "name": "Andrew",
+      "number": "942-893-0579"
+    },
+    {
+      "id": 5,
+      "name": "Patricia",
+      "number": "352-796-3575"
+    },
+    {
+      "id": 6,
+      "name": "Andy",
+      "number": "792-359-7525"
+    },
+    {
+      "id": 7,
+      "name": "Anthony",
+      "number": "659-302-6878"
+    }
+  ]
+}
