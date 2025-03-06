@@ -1,12 +1,11 @@
 // React passes props as an object, so it needs to be destructured,
 // to extract the array to mapped.
 const Display = ({ persons }) => {
-  console.log(persons);
   return (
     <>
-      {persons.map((person, index) => {
+      {persons.map((person) => {
         return (
-          <p key={index}>
+          <p key={person.id}>
             {person.name} {person.number}
           </p>
         );
