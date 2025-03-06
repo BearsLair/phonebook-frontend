@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import Display from "./components/Display";
 import Submit from "./components/Submit";
 import Filter from "./components/Filter";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Patrick", number: "650-923-9322" },
-    { name: "Kathy", number: "650-920-0892" },
-    { name: "Matt", number: "942-792-5669" },
-    { name: "Andrew", number: "942-893-0579" },
-    { name: "Patricia", number: "352-796-3575" },
-    { name: "Andy", number: "792-359-7525" },
-    { name: "Anthony", number: "659-302-6878" },
-  ]);
-
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nameSearch, setNameSearch] = useState("");
   const [displayPersons, setDisplayPersons] = useState(persons);
+
+  // Get full list of persons to display to the DOM
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then((response) => {
+        setPersons(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
 
   // UseEffect hook makes changes to the list happen immediately
   useEffect(() => {
