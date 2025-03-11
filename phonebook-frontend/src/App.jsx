@@ -21,7 +21,7 @@ const App = () => {
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
-  }, []);
+  }, [persons]);
 
   // UseEffect hook makes changes to the list happen immediately
   useEffect(() => {
@@ -42,8 +42,16 @@ const App = () => {
     if (duplicateExists) {
       alert(`${newName} is already in the phonebook.`);
     } else {
-      const newPerson = { name: newName, number: phoneNumber };
-      setPersons([...persons, newPerson]);
+      const id = persons.length + 1;
+
+      axios
+        .post("http://localhost:3001/persons", {
+          id: id,
+          name: newName,
+          number: phoneNumber,
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
     }
 
     setNewName("");
