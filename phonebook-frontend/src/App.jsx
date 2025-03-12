@@ -1,35 +1,25 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Display from "./components/Display";
 import Submit from "./components/Submit";
 import Filter from "./components/Filter";
+import { addPerson, getAllPersons, deletePerson } from "./server/backend";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nameSearch, setNameSearch] = useState("");
-  const [displayPersons, setDisplayPersons] = useState(persons);
+  const [displayPersons, setDisplayPersons] = useState([]);
 
-  // Get full list of persons to display to the DOM
+  // Fetch all persons from backend when component mounts
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => {
-        setPersons(response.data);
+    getAllPersons()
+      .then((data) => {
+        setPersons(data);
+        setDisplayPersons(data);
       })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-      });
-  }, [persons]);
-
-  // UseEffect hook makes changes to the list happen immediately
-  useEffect(() => {
-    const filteredList = persons.filter(
-      (person) => person.name.toLowerCase().includes(nameSearch.toLowerCase()) // Case-insensitive search
-    );
-    setDisplayPersons(filteredList);
-  }, [nameSearch, persons]); // Re-run effect when nameSearch or persons change
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []); // Runs only once when the component mounts
 
   const handleNameSearchChange = (event) => {
     setNameSearch(event.target.value);
@@ -44,18 +34,37 @@ const App = () => {
     } else {
       const id = persons.length + 1;
 
-      axios
-        .post("http://localhost:3001/persons", {
-          id: id,
-          name: newName,
-          number: phoneNumber,
+      // Use Axios properly by calling addPerson()
+      addPerson(id, newName, phoneNumber)
+        .then((newPerson) => {
+          if (newPerson) {
+            setPersons((prev) => [...prev, newPerson]);
+            setDisplayPersons((prev) => [...prev, newPerson]);
+          }
         })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.error("Error adding person:", error);
+        });
     }
 
     setNewName("");
     setPhoneNumber("");
+  };
+
+  const handleDelete = (id) => {
+    deletePerson(Number(id))
+      .then(() => {
+        // Update the state to remove the deleted person
+        setPersons((prevPersons) =>
+          prevPersons.filter((person) => person.id !== id)
+        );
+        setDisplayPersons((prevDisplayPersons) =>
+          prevDisplayPersons.filter((person) => person.id !== id)
+        );
+      })
+      .catch((error) => {
+        console.error("Error deleting person:", error);
+      });
   };
 
   return (
@@ -66,7 +75,6 @@ const App = () => {
         handleNameSearchChange={handleNameSearchChange}
       />
       <h2>Add New Entry</h2>
-      {/* Methods passed as props do not need parantheses, as with handleAddPerson */}
       <Submit
         handleAddPerson={handleAddPerson}
         newName={newName}
@@ -75,7 +83,7 @@ const App = () => {
         setPhoneNumber={setPhoneNumber}
       />
       <h2>Numbers</h2>
-      <Display persons={displayPersons} />
+      <Display persons={displayPersons} handleDelete={handleDelete} />
     </div>
   );
 };
