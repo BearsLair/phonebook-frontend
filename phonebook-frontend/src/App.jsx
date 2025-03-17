@@ -16,10 +16,18 @@ const App = () => {
     getAllPersons()
       .then((data) => {
         setPersons(data);
-        setDisplayPersons(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []); // Runs only once when the component mounts
+
+  //Filters the list in real-time
+  useEffect(() => {
+    setDisplayPersons(
+      persons.filter((person) => {
+        return person.name.toLowerCase().includes(nameSearch.toLowerCase());
+      })
+    );
+  }, [persons, nameSearch]); // Runs when persons or nameSearch is altered
 
   const handleNameSearchChange = (event) => {
     setNameSearch(event.target.value);
