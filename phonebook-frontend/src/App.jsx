@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import Display from "./components/Display";
 import Submit from "./components/Submit";
 import Filter from "./components/Filter";
-import { addPerson, getAllPersons, deletePerson } from "./server/backend";
+import {
+  addPerson,
+  getAllPersons,
+  changeNumber,
+  deletePerson,
+} from "./server/backend";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -35,10 +40,32 @@ const App = () => {
 
   const handleAddPerson = (event) => {
     event.preventDefault();
+
     const duplicateExists = persons.some((person) => newName === person.name);
 
+    // If a duplicate exists, ask whether a person's number should be changed.
     if (duplicateExists) {
-      alert(`${newName} is already in the phonebook.`);
+      if (window.confirm(`Do you want to change ${newName}'s number?`)) {
+        const personToChange = persons.filter(
+          (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+
+        const id = personToChange[0].id;
+
+        changeNumber(id, phoneNumber)
+          .then(() => {
+            return getAllPersons();
+          })
+          .then((updatedPersons) => {
+            setPersons(updatedPersons);
+          })
+          .catch((error) => console.error("Error updating number", error));
+
+        setNewName("");
+        setPhoneNumber("");
+      } else {
+        console.log(`User declined to change ${newName}'s number.`);
+      }
     } else {
       const id = persons.length + 1;
 

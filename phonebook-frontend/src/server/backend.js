@@ -1,7 +1,7 @@
 import axios from "axios";
 const URL = "http://localhost:3001/persons";
 
-// Fetch all persons from the database
+// Fetch all persons from the database (get all persons is a JS PROMISE, not an array)
 const getAllPersons = () => {
   return axios
     .get(URL)
@@ -27,6 +27,15 @@ const addPerson = (id, newName, phoneNumber) => {
     });
 };
 
+const changeNumber = (id, phoneNumber) => {
+  return axios
+    .patch(`${URL}/${id}`, {
+      number: phoneNumber,
+    })
+    .then((response) => response.data)
+    .catch((error) => console.error(error));
+};
+
 const deletePerson = (id) => {
   return axios
     .delete(`${URL}/${id}`)
@@ -37,4 +46,4 @@ const deletePerson = (id) => {
     });
 };
 
-export { addPerson, getAllPersons, deletePerson };
+export { addPerson, getAllPersons, changeNumber, deletePerson };
