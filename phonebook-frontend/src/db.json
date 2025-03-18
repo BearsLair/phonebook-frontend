@@ -1,39 +1,34 @@
 {
   "persons": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Patrick",
       "number": "6509538412"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Patricia",
       "number": "7925684521"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Kathy",
       "number": "4654561656"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Katrine",
       "number": "6541859758"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Andrew",
       "number": "4846548978"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Andy",
       "number": "9848974585"
-    },
-    {
-      "id": 7,
-      "name": "Paulo",
-      "number": "4856874846"
     }
   ]
 }

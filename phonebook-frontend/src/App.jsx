@@ -59,20 +59,25 @@ const App = () => {
     setPhoneNumber("");
   };
 
+  // Deletes user from database, useEffect above automatically updates list of persons
   const handleDelete = (id) => {
-    deletePerson(Number(id))
-      .then(() => {
-        // Update the state to remove the deleted person
-        setPersons((prevPersons) =>
-          prevPersons.filter((person) => person.id !== id)
-        );
-        setDisplayPersons((prevDisplayPersons) =>
-          prevDisplayPersons.filter((person) => person.id !== id)
-        );
-      })
-      .catch((error) => {
-        console.error("Error deleting person:", error);
-      });
+    if (window.confirm("Are you sure you want to delete?")) {
+      deletePerson(Number(id))
+        .then(() => {
+          // Update the state to remove the deleted person
+          setPersons((prevPersons) =>
+            prevPersons.filter((person) => person.id !== id)
+          );
+          setDisplayPersons((prevDisplayPersons) =>
+            prevDisplayPersons.filter((person) => person.id !== id)
+          );
+        })
+        .catch((error) => {
+          console.error("Error deleting person:", error);
+        });
+    } else {
+      console.log("Deletion aborted");
+    }
   };
 
   return (
